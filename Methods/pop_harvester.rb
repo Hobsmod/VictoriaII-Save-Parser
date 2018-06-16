@@ -1,12 +1,13 @@
 require 'Date'
 require 'yaml'
 require_relative '..\Classes\Pop.rb'
+require_relative '..\Classes\Province.rb'
 
 savefile = 'C:\Users\sdras\OneDrive\Documents\Paradox Interactive\Victoria II\HFM_LMM\save games\The_United States of America1845_08_01.v2'
 
 time = Time.now
 
-id_check = false
+pop_hash = Hash.new{}
 poptypes = ['farmers','aristocrats','artisans','bureaucrats',
 	'soldiers', 'capitalists', 'clergymen', 'clerks', 'craftsmen',
 	'labourers','officers','slaves','soldiers']
@@ -25,6 +26,7 @@ File.open(savefile).each do |line|
 end
 
 ##Figure out what line provinces start at
+id_check = false
 prov_lines_start = 0 
 File.open(savefile).each do |line|
 	prov_lines_start = prov_lines_start + 1
@@ -52,7 +54,7 @@ current_line = 0
 open_count = 0
 ideologies = false
 issues = false
-
+rgo = false
 
 File.open(savefile).each do |line|
 	### Count lines, and don't start checking until you hit the right lines
@@ -60,17 +62,20 @@ File.open(savefile).each do |line|
 	line.gsub! /\n/, ''
 	next if current_line < prov_lines_start
 	
-	if issues == true && line =~ /\}/
-		issues = false
-		open_count = open_count - 1
-		next
-	end
 	
-	if ideologies == true && line =~ /\}/
-		ideologies = false
-		open_count = open_count - 1
-		next
-	end
+	# Issues and Ideologies are large and we are leaving them out for now
+	
+	#if issues == true && line =~ /\}/
+	#	issues = false
+	#	open_count = open_count - 1
+	#	next
+	#end
+	
+	#if ideologies == true && line =~ /\}/
+	#	ideologies = false
+	#	open_count = open_count - 1
+	#	next
+	#end
 		
 	
 	if line =~ /\{/
@@ -114,7 +119,17 @@ File.open(savefile).each do |line|
 				unless this_pop == nil
 					this_pop.addPopInstance(this_instance)
 					pop_array.push(this_pop)
+					
+					#### Add this pop to the correct id in pop hash
+					if pop_hash.key?(this_pop.id)
+						pop_hash[this_pop.id].addPopInstance(this_instance)
+					else
+						pop_hash[this_pop.id] = this_pop
+					end
 				end
+				
+
+				
 				
 				split_line = line.split('=')
 				id = split_line[1].chomp
@@ -208,21 +223,21 @@ File.open(savefile).each do |line|
 	end
 	
 	if open_count == 3
-		if ideologies == true
-			if line =~ /\d{1,2}\=/
-				split_line = line.split('=')
-				this_instance.ideologies[split_line[0]] = split_line[1]
-				next
-			end
-		end
+		#if ideologies == true
+		#	if line =~ /\d{1,2}\=/
+		#		split_line = line.split('=')
+		#		this_instance.ideologies[split_line[0]] = split_line[1]
+		#		next
+		#	end
+		#end
 		
-		if issues == true
-			if line =~ /\d{1,2}\=/
-				split_line = line.split('=')
-				this_instance.issues[split_line[0]] = split_line[1]
-				next
-			end
-		end
+		#if issues == true
+		#	if line =~ /\d{1,2}\=/
+		#		split_line = line.split('=')
+		#		this_instance.issues[split_line[0]] = split_line[1]
+		#		next
+		#	end
+		#end
 	end
 	
 	
@@ -239,5 +254,6 @@ end
 
 
 File.write('Pop.yml', pop_array.to_yaml)
+File.write('PopHash.yml', pop_hash.to_yaml)
 runtime = Time.now - time
 puts "runtime was #{runtime} seconds" 

@@ -3,12 +3,15 @@ class Pop
 	
 	def initialize(id)
 		self.id = id
-		self.instances = Array.new()
+		self.instances = Hash.new{}
 	end
 	
 	def addPopInstance(inst)
-		instances.push(inst)
+		year = inst.year
+		instances[year] = inst
 	end
+	
+
 end
 
 class PopInstance

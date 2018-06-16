@@ -1,0 +1,564 @@
+---
+- !ruby/object:ProductionType
+  type: factory
+  output: aeroplanes
+  name: aeroplanes_factory
+  out_value: 0.91
+  inputs:
+    machine_parts: 1.11
+    electric_gear: 2.0
+    rubber: 1.0
+    lumber: 3.3
+  template: machine_part_user_template
+  efficiency: &1
+    cement: 0.5
+- !ruby/object:ProductionType
+  type: factory
+  output: barrels
+  name: barrels_factory
+  out_value: 1.0
+  inputs:
+    automobiles: 0.3
+    machine_parts: 0.85
+    electric_gear: 1.0
+    rubber: 1.0
+  template: machine_part_user_template
+  efficiency: *1
+- !ruby/object:ProductionType
+  type: factory
+  output: automobiles
+  name: automobiles_factory
+  out_value: 1.43
+  inputs:
+    machine_parts: 1.05
+    electric_gear: 1.5
+    rubber: 1.0
+    steel: 2.25
+  template: machine_part_user_template
+  efficiency: *1
+- !ruby/object:ProductionType
+  type: factory
+  output: radio
+  name: radio_factory
+  out_value: 6.5
+  inputs:
+    glass: 10.0
+    electric_gear: 3.0
+  template: factory_template
+  efficiency: &2
+    cement: 0.5
+    machine_parts: 0.05
+- !ruby/object:ProductionType
+  type: factory
+  output: telephones
+  name: telephones_factory
+  out_value: 6.5
+  inputs:
+    glass: 15.0
+    electric_gear: 2.5
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: electric_gear
+  name: electric_gear_factory
+  out_value: 5.0
+  inputs:
+    rubber: 4.0
+    coal: 5.0
+    iron: 5.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: machine_parts
+  name: machine_parts_factory
+  out_value: 2.0
+  inputs:
+    steel: 9.0
+    coal: 5.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: oil
+  name: oil_factory
+  out_value: 2.5
+  inputs:
+    coal: 12.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: fuel
+  name: fuel_factory
+  out_value: 2.0
+  inputs:
+    oil: 2.5
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: steamer_convoy
+  name: steamer_convoy_factory
+  out_value: 3.0
+  inputs:
+    steel: 22.0
+    coal: 30.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: luxury_clothes
+  name: luxury_clothes_factory
+  out_value: 1.0
+  inputs:
+    regular_clothes: 0.9
+    silk: 3.9
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: luxury_furniture
+  name: luxury_furniture_factory
+  out_value: 1.1
+  inputs:
+    furniture: 2.0
+    tropical_wood: 7.5
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: steel
+  name: steel_factory
+  out_value: 20.0
+  inputs:
+    iron: 20.0
+    coal: 5.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: artillery
+  name: artillery_factory
+  out_value: 1.3
+  inputs:
+    explosives: 1.0
+    steel: 8.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: clipper_convoy
+  name: clipper_convoy_factory
+  out_value: 10.0
+  inputs:
+    fabric: 100.0
+    timber: 100.0
+    steel: 30.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: small_arms
+  name: small_arms_factory
+  out_value: 2.0
+  inputs:
+    ammunition: 2.0
+    steel: 3.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: furniture
+  name: furniture_factory
+  out_value: 12.0
+  inputs:
+    lumber: 20.0
+    timber: 20.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: paper
+  name: paper_factory
+  out_value: 20.0
+  inputs:
+    timber: 50.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: regular_clothes
+  name: regular_clothes_factory
+  out_value: 15.0
+  inputs:
+    fabric: 40.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: explosives
+  name: explosives_factory
+  out_value: 3.0
+  inputs:
+    fertilizer: 3.0
+    ammunition: 0.8
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: ammunition
+  name: ammunition_factory
+  out_value: 2.0
+  inputs:
+    sulphur: 2.0
+    iron: 4.0
+  template: cheap_factory_template
+  efficiency: &3
+    cement: 0.25
+- !ruby/object:ProductionType
+  type: factory
+  output: canned_food
+  name: canned_food_factory
+  out_value: 2.0
+  inputs:
+    iron: 0.5
+    cattle: 4.0
+    grain: 4.0
+    fish: 4.0
+  template: cheap_factory_template
+  efficiency: *3
+- !ruby/object:ProductionType
+  type: factory
+  output: dye
+  name: dye_factory
+  out_value: 2.5
+  inputs:
+    coal: 9.0
+  template: cheap_factory_template
+  efficiency: *3
+- !ruby/object:ProductionType
+  type: factory
+  output: liquor
+  name: liquor_factory
+  out_value: 5.0
+  inputs:
+    grain: 5.0
+    glass: 4.0
+  template: cheap_factory_template
+  efficiency: *3
+- !ruby/object:ProductionType
+  type: factory
+  output: wine
+  name: wine_factory
+  out_value: 3.5
+  inputs:
+    fruit: 5.0
+    glass: 5.0
+  template: cheap_factory_template
+  efficiency: *3
+- !ruby/object:ProductionType
+  type: factory
+  output: lumber
+  name: lumber_factory
+  out_value: 110.0
+  inputs:
+    timber: 100.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: fabric
+  name: fabric_factory
+  out_value: 45.0
+  inputs:
+    cotton: 18.0
+    dye: 2.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: cement
+  name: cement_factory
+  out_value: 3.0
+  inputs:
+    coal: 12.0
+  template: cement_template
+  efficiency:
+    iron: 2.3
+    machine_parts: 0.05
+- !ruby/object:ProductionType
+  type: factory
+  output: glass
+  name: glass_factory
+  out_value: 18.0
+  inputs:
+    coal: 14.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: factory
+  output: fertilizer
+  name: fertilizer_factory
+  out_value: 5.0
+  inputs:
+    sulphur: 6.0
+  template: factory_template
+  efficiency: *2
+- !ruby/object:ProductionType
+  type: artisan
+  output: aeroplanes
+  name: aeroplanes_artisan
+  out_value: 0.91
+  inputs:
+    machine_parts: 1.06
+    electric_gear: 2.0
+    rubber: 1.0
+    lumber: 3.3
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: barrels
+  name: barrels_artisan
+  out_value: 1.0
+  inputs:
+    automobiles: 0.3
+    machine_parts: 0.8
+    electric_gear: 1.0
+    rubber: 1.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: automobiles
+  name: automobiles_artisan
+  out_value: 1.43
+  inputs:
+    machine_parts: 1.0
+    electric_gear: 1.5
+    rubber: 1.0
+    steel: 2.25
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: radio
+  name: radio_artisan
+  out_value: 6.5
+  inputs:
+    glass: 10.0
+    electric_gear: 3.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: telephones
+  name: telephones_artisan
+  out_value: 6.5
+  inputs:
+    glass: 15.0
+    electric_gear: 2.5
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: electric_gear
+  name: electric_gear_artisan
+  out_value: 5.0
+  inputs:
+    rubber: 4.0
+    coal: 5.0
+    iron: 5.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: machine_parts
+  name: machine_parts_artisan
+  out_value: 2.0
+  inputs:
+    steel: 9.0
+    coal: 5.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: fuel
+  name: fuel_artisan
+  out_value: 2.0
+  inputs:
+    oil: 2.5
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: steamer_convoy
+  name: steamer_convoy_artisan
+  out_value: 3.0
+  inputs:
+    steel: 22.0
+    coal: 30.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: luxury_clothes
+  name: luxury_clothes_artisan
+  out_value: 1.0
+  inputs:
+    regular_clothes: 0.9
+    silk: 3.9
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: luxury_furniture
+  name: luxury_furniture_artisan
+  out_value: 1.1
+  inputs:
+    furniture: 2.0
+    tropical_wood: 7.5
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: steel
+  name: steel_artisan
+  out_value: 20.0
+  inputs:
+    iron: 20.0
+    coal: 5.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: artillery
+  name: artillery_artisan
+  out_value: 1.3
+  inputs:
+    explosives: 1.0
+    steel: 8.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: clipper_convoy
+  name: clipper_convoy_artisan
+  out_value: 10.0
+  inputs:
+    fabric: 100.0
+    timber: 100.0
+    steel: 30.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: small_arms
+  name: small_arms_artisan
+  out_value: 2.0
+  inputs:
+    ammunition: 2.0
+    steel: 3.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: furniture
+  name: furniture_artisan
+  out_value: 12.0
+  inputs:
+    lumber: 20.0
+    timber: 20.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: paper
+  name: paper_artisan
+  out_value: 20.0
+  inputs:
+    timber: 50.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: regular_clothes
+  name: regular_clothes_artisan
+  out_value: 15.0
+  inputs:
+    fabric: 40.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: explosives
+  name: explosives_artisan
+  out_value: 3.0
+  inputs:
+    fertilizer: 3.0
+    ammunition: 0.8
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: ammunition
+  name: ammunition_artisan
+  out_value: 3.0
+  inputs:
+    sulphur: 2.0
+    coal: 2.0
+    iron: 5.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: canned_food
+  name: canned_food_artisan
+  out_value: 6.0
+  inputs:
+    iron: 2.0
+    cattle: 12.0
+    grain: 12.0
+    fish: 12.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: liquor
+  name: liquor_artisan
+  out_value: 10.0
+  inputs:
+    grain: 10.0
+    glass: 8.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: wine
+  name: wine_artisan
+  out_value: 7.0
+  inputs:
+    fruit: 10.0
+    glass: 10.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: lumber
+  name: lumber_artisan
+  out_value: 110.0
+  inputs:
+    timber: 100.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: fabric
+  name: fabric_artisan
+  out_value: 45.0
+  inputs:
+    cotton: 18.0
+    dye: 2.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: cement
+  name: cement_artisan
+  out_value: 3.0
+  inputs:
+    coal: 12.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: glass
+  name: glass_artisan
+  out_value: 18.0
+  inputs:
+    coal: 14.0
+  template: RGO_template_labourers
+- !ruby/object:ProductionType
+  type: artisan
+  output: fertilizer
+  name: fertilizer_artisan
+  out_value: 5.0
+  inputs:
+    sulphur: 6.0
+  template: RGO_template_labourers

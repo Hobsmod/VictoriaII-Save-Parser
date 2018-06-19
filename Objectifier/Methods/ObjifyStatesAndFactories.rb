@@ -13,6 +13,10 @@ def objifyStatesAndFactories(savegame)
 	this_factory = nil
 	line_count = 0
 	depth = 0
+	emp_prov_id = nil
+	emp_index = nil
+	emp_type = nil
+	emp_count = nil
 	
 	#### Conditionals for block types
 	#### We turn these flags on whenever we encounter the correct string at depth 1
@@ -30,6 +34,7 @@ def objifyStatesAndFactories(savegame)
 	stockpile = false
 	employment = false
 	employees = false
+	profit_history_entry = false
 	
 	##### We attach the date to this data in order to use it in larger mixed game sets
 	date = 0
@@ -71,6 +76,8 @@ def objifyStatesAndFactories(savegame)
 			owner = line.split('=')[0].strip
 		end
 		
+		### We have some booleans here to check when we start a bloc of a certain type,
+		### they get turned off when we find the close parens at adequate depth
 		if depth == 1 && line =~ /state\=/
 			state = true
 			next
@@ -96,6 +103,22 @@ def objifyStatesAndFactories(savegame)
 			next
 		end
 		
+		if depth == 3 && state_buildings == true && line =~ /employment\=/
+			employment = true
+		
+			next
+		end
+		
+		if depth == 3 && state_buildings == true && line =~ /profit_history_entry\=/
+			profit_history_entry = true
+		end
+		
+		if depth == 4 && employment == true && line =~ /employees\=/
+			employees = true
+			next
+		end
+		
+		
 		
 		##### We create a state everytime we encounter a new state id 
 		##### And pass it to the state array, we will need a way to pass the last one
@@ -103,7 +126,8 @@ def objifyStatesAndFactories(savegame)
 			unless this_state == nil
 				state_arry.push(this_state)
 			end
-			id = line.split('=')[1].to_i
+			id = 
+			line.split('=')[1].to_i
 			this_state = State.new(id)
 			this_state.year = date
 			this_state.owner = owner
@@ -168,7 +192,7 @@ def objifyStatesAndFactories(savegame)
 				next
 			end
 			
-			if line =~ /money\=/ && depth == 3
+			if line =~ /\tmoney\=/ && depth == 3
 				this_factory.money = line.strip.split('=')[1].to_f
 			end
 			
@@ -216,22 +240,65 @@ def objifyStatesAndFactories(savegame)
 				this_factory.profit_history_current = line.strip.split('=')[1].to_f
 			end
 			
+			if line =~ /subsidised\=yes/ && depth == 3
+				this_factory.subsidised = true
+			end
+			
 			if stockpile == true && line =~ /[a-zA-Z]*\=\d*/
 				split_line = line.strip.split('=')
 				this_factory.stockpile[split_line[0]] = split_line[1]
 			end
 		end
 		
+		##### Grab employee data
+		if employment == true && line =~ /state_province_id\=/
+			this_factory.employee_prov_id = line.strip.split('=')[1].to_i
+			next
+		end
+		
+		if employees == true
+			if line =~ /province_id\=/
+				emp_prov_id = line.strip.split('=')[1].to_i
+				next
+			end
+			if line =~ /index\=/
+				emp_index = line.strip.split('=')[1].to_i
+				next
+			end
+			if line =~ /type\=/
+				emp_type = line.strip.split('=')[1].to_i
+				next
+			end
+			if line =~ /count\=/
+				emp_count = line.strip.split('=')[1].to_i
+				these_employees = Employees.new(emp_prov_id, emp_index)
+				these_employees.type = emp_type
+				these_employees.count = emp_count
+				this_factory.employees.push(these_employees)
+			end
+		end
+		
+		#### Grab Profit History
+		if profit_history_entry == true && line =~ /\d\.\d{1,}/
+			profit_history = line.strip.split(' ')
+			profit_history.pop
+			profit_history.each do |n|
+				n = n.to_f
+			end
+			this_factory.profit_history_arr = profit_history
+		end
+		
+		
+		#### When we get to newspaper stuff it's over
+		if line =~ /news_scope/
+			break
+		end
 		
 		
 		#### Here is where we count close parens and close any 'block type' conditionals
 		#### If PDOX had been consistent about giving open and close parens their own 
 		#### line we could do this at the start and skip all other checks, but they
 		#### only gave 99% of parens their own line grrrrr.....
-		if line =~ /news_scope/
-			break
-		end
-		
 		if line =~ /\}/
 			depth = depth - 1
 			if depth < 0 
@@ -258,6 +325,15 @@ def objifyStatesAndFactories(savegame)
 			end
 			if depth == 3 
 				stockpile = false
+				employment = false
+				profit_history_entry = false
+			end
+			if depth == 4
+				employees = false
+				emp_count = nil
+				emp_index = nil
+				emp_prov_id = nil
+				emp_type = nil
 			end
 		end
 		

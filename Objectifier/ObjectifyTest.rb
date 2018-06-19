@@ -7,7 +7,7 @@ require_relative 'Methods\objifyCountries.rb'
 require_relative 'Methods\objifyStatesAndFactories.rb'
 
 
-save_game = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar\1837.txt'
+save_game = 'C:\Program Files (x86)\Steam\steamapps\common\Victoria 2\mod\save games\madagascar\1837.txt'
 
 start = Time.now
 

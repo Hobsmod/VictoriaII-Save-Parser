@@ -1,0 +1,2 @@
+Objectifiers are scripts that turn data into a save game into a hash or array of ruby object and then write those 
+data structures somewhere for use by future scripts. 

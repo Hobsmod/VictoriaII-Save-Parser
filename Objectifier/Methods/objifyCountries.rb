@@ -594,7 +594,7 @@ def objifyCountries(savegame)
 				
 				if line =~ /country\=\"/
 					creditor_tag = line.strip.split('=')[1].gsub(/\A"+(.*?)"+\Z/m, '\1')
-					puts creditor_tag
+					#puts creditor_tag
 				else
 					split_line = line.strip.split('=')
 					unless split_line[1] =~ /[A-Za-z]{1,}/
@@ -993,5 +993,7 @@ def objifyCountries(savegame)
 		
 	end
 	
-	File.write('Countries.yml', tag_hash.to_yaml)
+	
+	return tag_hash
+	
 end

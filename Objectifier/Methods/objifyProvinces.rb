@@ -294,5 +294,6 @@ def objifyProvinces(savegame)
 		
 	end
 	
-	File.write('Provinces.yml', prov_hash.to_yaml)
+	return prov_hash
+	
 end

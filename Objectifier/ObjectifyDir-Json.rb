@@ -1,5 +1,5 @@
 require 'Date'
-require 'yaml'
+require 'Oj'
 
 require_relative 'Methods\objifyMarketData.rb'
 require_relative 'Methods\objifyProvinces.rb'
@@ -7,8 +7,9 @@ require_relative 'Methods\objifyCountries.rb'
 require_relative 'Methods\objifyStatesAndFactories.rb'
 require_relative 'Classes\GlobalMarketData.rb'
 require_relative 'Methods\addPopOwners.rb'
-require_relative 'Methods\objifyPops.rb'
 require_relative 'Methods\addPopRgoType.rb'
+require_relative 'Methods\objifyPops.rb'
+
 
 
 save_dir = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar'
@@ -61,19 +62,19 @@ Dir.foreach(save_dir) do |file_name|
 	####  data as YAML's. I'd love to print these as JSON's but to_json just prints
 	#### references to the objects not the whole object
 	Dir::chdir(game_name)
-	File.write('MarketData.yaml', market_data.to_yaml)
+	File.write('MarketData.json', Oj.dump(market_data))
 	puts "finished writing market data for #{file_name} in #{Time.now - calc_time} seconds"
 	calc_time = Time.now
-	File.write('Countries.yaml', tag_hash.to_yaml)
+	File.write('Countries.json', Oj.dump(tag_hash))
 	puts "finished writing country data for #{file_name} in #{Time.now - calc_time} seconds"
 	calc_time = Time.now
-	File.write('Pops.yaml', pops.to_yaml)
+	File.write('Pops.json', Oj.dump(pops))
 	puts "finished writing pop data for #{file_name} in #{Time.now - calc_time} seconds"
 	calc_time = Time.now
-	File.write('Provinces.yaml', provinces.to_yaml)
+	File.write('Provinces.json', Oj.dump(provinces))
 	puts "finished writing province data for #{file_name} in #{Time.now - calc_time} seconds"
 	calc_time = Time.now
-	File.write('States.yaml', states_n_factories.to_yaml)
+	File.write('States.json', Oj.dump(states_n_factories))
 	puts "finished writing state and factory data for #{file_name} in #{Time.now - calc_time} seconds"
 	calc_time = Time.now
 

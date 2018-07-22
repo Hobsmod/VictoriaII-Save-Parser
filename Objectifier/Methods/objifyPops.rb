@@ -66,14 +66,12 @@ def objifyPops(savegame)
 		#### Count the line for depth
 		if line =~ /\{/
 			depth = depth + 1
-			next
 		end
 		if line =~ /\}/
 			depth = depth - 1
 			if depth < 0 
 				abort "Block depth is less than 0, something went wrong with counting parens"
 			end
-			next
 		end
 		
 		### We have to check that fired events opened, and then closed, before we 
@@ -86,10 +84,10 @@ def objifyPops(savegame)
 		end
 		
 		
-		
+		#puts depth
 		
 		#### If the line is just n= then thats a prov id
-		if depth == 0 && line =~ /\d{1,}\=\n/
+		if depth == 0 && line =~ /\d{1,}\=/
 			prov_id = line.chomp('=').to_i
 		end
 
@@ -123,7 +121,7 @@ def objifyPops(savegame)
 			end
 		
 			if line =~ /money=\d{1,}/
-				this_pop.money = line.split('=')[1].to_f.round(3)
+				this_pop.money = line.split('=')[1].to_f / 1000
 				next
 			end
 			
@@ -138,7 +136,7 @@ def objifyPops(savegame)
 			end
 			
 			if line =~ /bank=\d{1,}/
-				this_pop.bank = line.split('=')[1].to_f.round(3)
+				this_pop.bank = line.split('=')[1].to_f.round(3) / 1000
 				next
 			end
 			
@@ -271,9 +269,7 @@ def objifyPops(savegame)
 				
 	end	
 
-
-	
-		File.write('Pops.yml', pop_array.to_yaml)
 		
+	return pop_array
 	
 end	

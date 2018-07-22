@@ -1,27 +1,23 @@
-def objifyMarketData(savegame)
-	require 'descriptive_statistics'
+def objifyMarketData(save_game)
+
 	require 'fileutils'
-	### This method takes a savegame and creates two data structures
-	### The first is a hash of hashes containing the price history of all goods
-	### The second is a hash of hashes containing averages for prices, global supply,
-	### demand, prices etc.
-	### It then prints paths to these files in what I am calling a game index
+	require 'yaml'
+	require_relative '..\Classes\GlobalMarketData.rb'
 	
-	### Price_history_hash date->good->price
-	price_history_hash = Hash.new{|hash, key| hash[key] = Hash.new}
-	#### Market Data Hash Type->Good-> Array of Values (averaged at end)
-	market_data_hash = Hash.new{|hash, key| hash[key] = Hash.new{|inner_hash, key| inner_hash[key] = Array.new}}
+	### This method take a save game file and puts all the price and 
+	### Market data at the top of it into a GlobalMarketData object
+	### which it then returns for printing to whichever method called it. 
 	
+
 	
-	
-	## Go into the savegame and grab the in-game date it was saved on, which we need 
-	## to attach to price histories (usually as a label in the hash) in order to make 
-	## price histories that span multiple games
+	## Go into the save_game and grab the in-game date it was saved on, which we need 
+	## to attach the actual day to price_history. I am assuming price history is printed
+	## sequentially in the save files. 
 	date = 0
 	price_date = 0
 	year = 0
 	price_history_io = false
-	File.open(savegame).each do |line|
+	File.open(save_game).each do |line|
 		if line =~ /date/
 			line.gsub! /\n/, ''
 			split_line = line.split('=')
@@ -32,9 +28,12 @@ def objifyMarketData(savegame)
 		end
 			
 		break unless date == 0
+		
+		
+		
 	end
 	
-	
+	market_data = GlobalMarketData.new(date)
 
 	### We use a combination of how deep we are in the parens block, and a tag
 	### telling us what block we are in to put the data in the corresponding
@@ -44,7 +43,7 @@ def objifyMarketData(savegame)
 	what_bloc = nil
 	depth = 0 
 	
-	File.open(savegame).each do |line|
+	File.open(save_game).each do |line|
 		## We keep track of how many parens 'deep' we are with the depth variable
 		
 		if line =~ /\{/
@@ -63,7 +62,6 @@ def objifyMarketData(savegame)
 		end
 		
 		
-		
 		if line =~ /price_pool/
 			what_bloc = 'price_history'
 			next
@@ -73,8 +71,8 @@ def objifyMarketData(savegame)
 			what_bloc = 'price_change'
 		end
 		
-		#### The date gem has trouble with years in the 1800s which is why year
-		#### is a seperate variable. If date is january 1 then when we subtract 
+		#### The date gem has trouble with years in the 1800s which is why year & price-date
+		#### are seperate variables. If date is january 1 then when we subtract 
 		#### we also subtract from year
 		if line =~ /price_history/
 			unless line =~ /update/
@@ -130,46 +128,39 @@ def objifyMarketData(savegame)
 			### remove extra tabs & split on the = 
 			line.gsub! /\t/,''
 			split_line = line.chomp.split('=')
-			market_data_hash[what_bloc][split_line[0]].push(split_line[1])
+			if what_bloc == 'supply'
+				market_data.supply[split_line[0]] = split_line[1].to_f
+			end
+			if what_bloc == 'worldmarket_pool'
+				market_data.worldmarket_supply[split_line[0]] = split_line[1].to_f
+			end
+			if what_bloc == 'discovered'
+				market_data.discovered[split_line[0]] = split_line[1].to_f
+			end
+			if what_bloc == 'actual_sold'
+				market_data.sold[split_line[0]] = split_line[1].to_f
+			end
+			if what_bloc == 'actual_sold_world'
+				market_data.worldmarket_sold[split_line[0]] = split_line[1].to_f
+			end
+			if what_bloc == 'real_demand'
+				market_data.real_demand[split_line[0]] = split_line[1].to_f
+			end
+			if what_bloc == 'demand'
+				market_data.demand[split_line[0]] = split_line[1].to_f
+			end
+			
+			
+			
 			#### For the price history block 
 			if what_bloc == 'price_history'
 				hist_date = year.to_s + '-' + price_date.mon.to_s + '-' + price_date.mday.to_s
-				price_history_hash[hist_date][split_line[0]] = split_line[1]
+				market_data.price_history[hist_date][split_line[0]] = split_line[1].to_f
 			end
 		end
 	end	
 
 	
-	#### At the end we take the values in the hash of hash of arrays and average
-	### them and turn them into a new hash which we return
-	market_data_hash_avg = Hash.new{|hash, key| hash[key] = Hash.new}
-	
-	market_data_hash.each do |key, value|
-		value.each do |k, v|
-			market_data_hash_avg[key][k] = v.mean.to_f	
-		end
-	end
-	
-	
-	##### Here is the part where we start to output data structures into
-	##### Folders wherever the savegame is 
-		
-		#### Create an Objectified folder wherever the savegame is
-		#### which is the top level folder (There is surely a better
-		#### way to do this but I suck and this works)
-		save_dir = File.dirname(savegame)
-		game_name = File.basename(savegame, ".*") + '-Objectified' 
-		Dir::chdir(save_dir)
-		Dir.mkdir(game_name) unless File.exists?(game_name)
-		
-		
-		#### Move down into the objectified folder and create a 
-		#### Market data folder, 
-		Dir::chdir(game_name)
-		Dir.mkdir('MarketData') unless File.exists?('MarketData')
-		Dir::chdir('MarketData')
-		File.write('MarketData.yml', market_data_hash_avg.to_yaml)
-		File.write('PriceHistory.yml', price_history_hash.to_yaml)
-		
+	return market_data
 	
 end	

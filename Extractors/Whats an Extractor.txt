@@ -1,0 +1,5 @@
+An extractor is a method or script that pulls a limited set of data out of an objectified save game and combines it with data from other
+objectified save games for use in future analysis. 
+Objectified save games can be large and contain a lot of unnecessary information. If you just want to know how much money a pop has,
+loading all the pop data every time can be very slow. You make an extractor that collects the relevant information for all save games in a 
+directory, and then you can write scripts to analyze that information.  

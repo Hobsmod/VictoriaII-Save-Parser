@@ -53,18 +53,19 @@ def objifyStatesAndFactories(savegame)
 	File.open(savegame).each do |line|
 		
 		line_count = line_count + 1
-		#### skip everything prior to fired_events, it would be nice to stop checking
-		#### this once it is 1 but it can't take too long to check a variable once
+		
+		
+		#### skip everything until we find our first tag 
+		#### 3 capital letters followed by an equal sign
 		unless found_a_tag == true
 			if line =~ /[A-Z]{3}\=/
-				this_tag = line.split('=')[0]
-				this_country = Country.new(this_tag)
 				found_a_tag = true
 			end
 			if found_a_tag == false
 				next
 			end
 		end
+		
 		## We keep track of how many parens 'deep' we are with the depth variable
 		if line =~ /\{/
 			depth = depth + 1
@@ -78,35 +79,31 @@ def objifyStatesAndFactories(savegame)
 		
 		### We have some booleans here to check when we start a bloc of a certain type,
 		### they get turned off when we find the close parens at adequate depth
+		### I can probably get away with putting next after these but I'm not certain
+		### so let's be cautious for now. 
+		
 		if depth == 1 && line =~ /state\=/
 			state = true
-			next
 		end
 		
 		if depth == 2 && line =~ /id\=/ && state == true
 			id_bloc = true
-			next
 		end
 		
 		if depth == 2 && state == true && line =~ /provinces\=/
 			provinces_bloc = true
-			next
 		end
 		
 		if depth == 2 && state == true && line =~ /popproject\=/
 			pop_project = true
-			next
 		end
 		
 		if depth == 2 && state == true && line =~ /state_buildings\=/
 			state_buildings = true
-			next
 		end
 		
 		if depth == 3 && state_buildings == true && line =~ /employment\=/
 			employment = true
-		
-			next
 		end
 		
 		if depth == 3 && state_buildings == true && line =~ /profit_history_entry\=/
@@ -115,7 +112,6 @@ def objifyStatesAndFactories(savegame)
 		
 		if depth == 4 && employment == true && line =~ /employees\=/
 			employees = true
-			next
 		end
 		
 		
@@ -126,8 +122,7 @@ def objifyStatesAndFactories(savegame)
 			unless this_state == nil
 				state_arry.push(this_state)
 			end
-			id = 
-			line.split('=')[1].to_i
+			id = line.split('=')[1].to_i
 			this_state = State.new(id)
 			this_state.year = date
 			this_state.owner = owner
@@ -176,7 +171,16 @@ def objifyStatesAndFactories(savegame)
 			if line =~ /building\=/
 					### Push the last building we did into the state
 					### We also do this when we close the state block
-				unless this_factory == nil
+				unless this_factory.nil? or this_state.nil?
+					## For some reason I am getting errors where this_state is defined
+					## but this_state.buildings is nil even though creating it is supposed
+					## to be part of initialization for state objects, so I'm not sure what the 
+					## problem is and I'm redundantly creating the array here. I'll have to check
+					## later why this is happening and if it causes problems
+					## Did you check? -- Not Yet
+					if this_state.buildings.nil?
+						this_state.buildings = Array.new
+					end
 					this_state.buildings.push(this_factory)
 				end
 				type = line.split('=')[1].gsub(/\A"+(.*?)"+\Z/m, '\1').strip
@@ -193,7 +197,7 @@ def objifyStatesAndFactories(savegame)
 			end
 			
 			if line =~ /\tmoney\=/ && depth == 3
-				this_factory.money = line.strip.split('=')[1].to_f
+				this_factory.money = line.strip.split('=')[1].to_f / 1000
 			end
 			
 			if line =~ /last_spending\=/ && depth == 3
@@ -312,6 +316,15 @@ def objifyStatesAndFactories(savegame)
 			#### into the state object
 			if depth == 1
 				unless this_factory == nil
+					## For some reason I am getting errors where this_state is defined
+					## but this_state.buildings is nil even though creating it is supposed
+					## to be part of initialization for state objects, so I'm not sure what the 
+					## problem is and I'm redundantly creating the array here. I'll have to check
+					## later why this is happening and if it causes problems
+					## Did you check? -- Not Yet
+					if this_state.buildings.nil?
+						this_state.buildings = Array.new
+					end
 					this_state.buildings.push(this_factory)
 				end
 				this_factory = nil
@@ -340,5 +353,7 @@ def objifyStatesAndFactories(savegame)
 		
 	end
 	
-	File.write('States.yml', state_arry.to_yaml)
+	
+	return state_arry
+	
 end

@@ -1,6 +1,6 @@
 require 'oj'
-require_relative '..\Objectifier\Classes\Factory.rb'
-require_relative '..\Extractors\Methods\ExtractFactoryFinancials.rb'
+require_relative '..\Classes\Factory.rb'
+require_relative '..\\Methods\ExtractFactoryFinancials.rb'
 require 'csv'
 save_dir = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar'
 

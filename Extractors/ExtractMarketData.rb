@@ -1,10 +1,10 @@
 require 'Date'
 require 'yaml'
 require 'csv'
-require_relative 'Classes\Country.rb'
-require_relative 'Classes\Pop.rb'
-require_relative 'Classes\State.rb'
-require_relative 'Classes\Province.rb'
+require_relative '..\Classes\Country.rb'
+require_relative '..\Classes\Pop.rb'
+require_relative '..\Classes\State.rb'
+require_relative '..\Classes\Province.rb'
 save_dir = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar'
 
 start = Time.now

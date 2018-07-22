@@ -1,8 +1,8 @@
 require 'yaml'
 
-require_relative 'Classes\Pop.rb'
-require_relative 'Classes\Province.rb'
-require_relative 'Methods\addPopRgoType.rb'
+require_relative '..\Classes\Pop.rb'
+require_relative '..\Classes\Province.rb'
+require_relative '..\Methods\addPopRgoType.rb'
 
 save_dir = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar'
 

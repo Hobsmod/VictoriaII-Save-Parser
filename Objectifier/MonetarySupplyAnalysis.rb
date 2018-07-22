@@ -1,10 +1,10 @@
 require 'Date'
 require 'yaml'
 
-require_relative 'Classes\Country.rb'
-require_relative 'Classes\Pop.rb'
-require_relative 'Classes\State.rb'
-require_relative 'Classes\Province.rb'
+require_relative '..\Classes\Country.rb'
+require_relative '..\Classes\Pop.rb'
+require_relative '..\Classes\State.rb'
+require_relative '..\Classes\Province.rb'
 input_dir = 'C:\Program Files (x86)\Steam\steamapps\common\Victoria 2\mod\VictoriaII-Save-Parser\Outputs'
 
 start = Time.now

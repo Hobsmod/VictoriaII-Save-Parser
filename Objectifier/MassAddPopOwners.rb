@@ -1,12 +1,12 @@
 require 'Date'
 require 'yaml'
 
-require_relative 'Methods\objifyMarketData.rb'
-require_relative 'Methods\objifyProvinces.rb'
-require_relative 'Methods\objifyCountries.rb'
-require_relative 'Methods\objifyStatesAndFactories.rb'
-require_relative 'Methods\objifyPops.rb'
-require_relative 'Methods\addPopOwners.rb'
+require_relative '..\Methods\objifyMarketData.rb'
+require_relative '..\Methods\objifyProvinces.rb'
+require_relative '..\Methods\objifyCountries.rb'
+require_relative '..\Methods\objifyStatesAndFactories.rb'
+require_relative '..\Methods\objifyPops.rb'
+require_relative '..\Methods\addPopOwners.rb'
 
 save_dir = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar'
 

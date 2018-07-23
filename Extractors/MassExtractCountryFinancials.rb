@@ -1,8 +1,8 @@
 require 'oj'
-require_relative '..\Objectifier\Classes\Pop.rb'
-require_relative 'Methods\ExtractCountryFinancials.rb'
+require_relative '..\Classes\Pop.rb'
+require_relative '..\Methods\ExtractCountryFinancials.rb'
 
-save_dir = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar'
+save_dir = '..\Savegames\Vanilla 3.04'
 
 
 all_pop_array = Array.new

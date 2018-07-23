@@ -1,29 +1,34 @@
 require 'Date'
 require 'yaml'
-require 'csv'
-require_relative '..\Classes\Country.rb'
-require_relative '..\Classes\Pop.rb'
-require_relative '..\Classes\State.rb'
-require_relative '..\Classes\Province.rb'
-save_dir = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar'
+require 'oj'
+require_relative '..\Classes\GlobalMarketData.rb'
+
+
+save_dir = '..\Savegames\Vanilla 3.04'
 
 start = Time.now
-world_output = Hash.new{}
+world_markets = Array.new
 
 
 
-(1837..1935).each do |year|
-	this_dir = save_dir + '\\' + year.to_s + '-Objectified'
-	market_data = YAML.load(File.read(this_dir + '\\' + 'MarketData.yml'))
-    total_world_output = 0
-	
-	market_data['actual_sold'].each do |good, value|
-		good_output_value = value * market_data['price_history'][good] 
-		total_world_output = total_world_output + good_output_value
+
+Dir.foreach(save_dir) do |file_name|
+	start = Time.now
+	unless file_name =~ /Objectified/
+		next
 	end
 	
-	world_output[year] = total_world_output
+	this_dir = save_dir + '\\' + file_name
+
+	world_market = Oj.load(File.read(this_dir + '\\' + 'MarketData.json'))
+	puts "loaded  world_market JSON in #{Time.now - start} seconds"
+	time_2 = Time.now
+	
+	world_markets.push(world_market)
+	
+	puts "extracted world market data for #{file_name} in #{Time.now - start} seconds"
 end
 	
 
-File.write('Output.JSON', world_output.dump_object)	
+write_location = save_dir + '\\' + 'Extracts' + '\\' + 'GlobalMarketData.json'	
+File.write(write_location, Oj.dump(world_markets))

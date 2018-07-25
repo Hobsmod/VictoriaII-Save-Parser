@@ -3,7 +3,7 @@ require_relative '..\Classes\Pop.rb'
 require_relative '..\Methods\ExtractFactoryFinancials.rb'
 require_relative '..\Methods\PrintHashAsCsv.rb'
 require 'csv'
-save_dir = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar'
+save_dir = '..\Savegames\Vanilla 3.04'
 
 
 

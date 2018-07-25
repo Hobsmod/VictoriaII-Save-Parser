@@ -2,7 +2,7 @@ require 'oj'
 require_relative '..\Classes\Factory.rb'
 require_relative '..\\Methods\ExtractFactoryFinancials.rb'
 require 'csv'
-save_dir = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar'
+save_dir = '..\Savegames\Vanilla 3.04'
 
 
 
@@ -41,7 +41,7 @@ factories.each do |this_factory|
 end
 
 unsub_hash.each do |type, value|
-	out_file = save_dir + '\\' 'Extracts' + '\\' + 'FactoryProfitability' + '-' + type + '.csv'
+	out_file = save_dir + '\\' 'Analyses' + '\\' + 'FactoryProfitability' + '-' + type + '.csv'
 	open(out_file, 'w') { |f|
 		value.each do |factory_arr|
 			f.print factory_arr.to_csv

@@ -17,7 +17,7 @@ Dir.foreach(save_dir) do |file_name|
 	this_dir = save_dir + '\\' + file_name
 
 	pops = Oj.load(File.read(this_dir + '\\' + 'Pops.json'))
-	puts "loaded prov JSON in #{Time.now - start} seconds"
+	puts "loaded country JSON in #{Time.now - start} seconds"
 	time_2 = Time.now
 	
 	all_pop_array.push(*ExtractPopFinancials(pops))
@@ -28,5 +28,5 @@ end
 
 Dir::chdir(save_dir)
 Dir.mkdir('Extracts') unless File.exists?('Extracts')
-write_location = save_dir + '\\' + 'Extracts' + '\\' + 'PopFinancialInformation.json'	
+write_location = 'Extracts' + '\\' + 'PopFinancialInformation.json'	
 File.write(write_location, Oj.dump(all_pop_array))

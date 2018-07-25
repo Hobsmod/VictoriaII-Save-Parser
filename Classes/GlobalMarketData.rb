@@ -88,6 +88,12 @@ class GlobalMarketData
 		prct_sold = self.getWorldSales / self.getWorldOutput
 		return prct_sold
 	end
+	
+	def getPrctOutputGold()
+		gold_output = self.supply['precious_metal'] * self.current_prices['precious_metal']
+		ratio = gold_output / self.getWorldSales
+		return ratio
+	end
 		
 end
 

@@ -12,7 +12,7 @@ require_relative 'Methods\objifyPops.rb'
 
 
 
-save_dir = 'C:\Users\sdras\Documents\Paradox Interactive\Victoria II\save games\madagascar'
+save_dir = '..\Savegames\Vanilla 3.04'
 
 start = Time.now
 

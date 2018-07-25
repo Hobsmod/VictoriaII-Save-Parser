@@ -16,7 +16,11 @@ def ExtractPopFinancials(pops)
 		new_pop.date = old_pop.date
 		new_pop.size = old_pop.size
 		new_pop.money = old_pop.money
-		new_pop.bank = old_pop.bank
+		if old_pop.bank == nil
+			new_pop.bank = 0.0
+		else
+			new_pop.bank = old_pop.bank
+		end
 		new_pop.owner = old_pop.owner
 		new_pop.type = old_pop.type
 		new_pop.prov_id = old_pop.prov_id

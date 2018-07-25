@@ -12,15 +12,17 @@ def ExtractCountryFinancials(old_countries)
 	
 	
 	old_countries.each do |tag, old_country|
-			if old_country.states.empty?
-				next
-			end
-			
+
 			new_country = Country.new(tag)
 			new_country.money = old_country.money
 			new_country.year = old_country.year
+			new_country.date = old_country.date
 			new_country.tax_base = old_country.tax_base
-			new_country.bank = old_country.bank
+			unless old_country.bank == nil
+				new_country.bank = old_country.bank
+			else
+				new_country.bank = 0.0
+			end
 			new_country.naval_need = old_country.naval_need
 			new_country.land_supply_cost = old_country.land_supply_cost
 			new_country.naval_supply_cost = old_country.naval_supply_cost
@@ -33,6 +35,5 @@ def ExtractCountryFinancials(old_countries)
 			new_country.military_spending = old_country.military_spending	
 			new_countries.push(new_country)
 	end
-	
 	return new_countries
 end

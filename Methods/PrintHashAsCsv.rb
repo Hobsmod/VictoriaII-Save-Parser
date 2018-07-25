@@ -4,7 +4,7 @@
 
 
 
-def print_hash_as_csv(hash, out_file)
+def print_hash_as_csv(hash, out_file, flip = false)
 	column_labels = Array.new
 	row_labels = Array.new
 	hash.each do |key, value|
@@ -15,8 +15,6 @@ def print_hash_as_csv(hash, out_file)
 	end
 	
 	column_labels = column_labels.uniq
-	row_labels = row_labels.uniq
-	
 	output = File.new(out_file, 'w')
 	
 	##### Print the header values

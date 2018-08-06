@@ -17,6 +17,7 @@ def objifyMarketData(save_game)
 	price_date = 0
 	year = 0
 	price_history_io = false
+	puts save_game
 	File.open(save_game).each do |line|
 		if line =~ /date/
 			line.gsub! /\n/, ''

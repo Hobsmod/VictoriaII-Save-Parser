@@ -1,5 +1,6 @@
 def objifyPops(savegame)
 	require_relative '..\Classes\Pop.rb'
+	require_relative '..\Classes\RGO.rb'
 	require 'fileutils'
 	### This method takes a savegame and creates a hash and an array of pop objects
 	
@@ -20,6 +21,7 @@ def objifyPops(savegame)
 	prov_id = nil
 	pop_type = nil
 	this_pop = nil
+	rgo = nil
 	line_count = 0
 
 
@@ -177,6 +179,9 @@ def objifyPops(savegame)
 				next
 			end
 			
+			
+				
+			
 			#### Weird factors that only apply to artisans
 			if line =~ /last_spending=\d{1,}/
 				this_pop.last_spending = line.split('=')[1].to_f.round(3)
@@ -249,6 +254,7 @@ def objifyPops(savegame)
 			if line =~ /need=/
 				what_bloc = 'need'
 			end
+			
 		end
 		
 		#### When depth  is 3 we start looking at ideology and issues,

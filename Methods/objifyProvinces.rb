@@ -1,5 +1,6 @@
 def objifyProvinces(savegame)
 	require_relative '..\Classes\Province.rb'
+	require_relative '..\Classes\RGO.rb'
 	require 'fileutils'
 	
 	#### list of poptypes for string matching to tell when we are in a pop block
@@ -15,6 +16,7 @@ def objifyProvinces(savegame)
 	fired_events_opened = 0
 	fired_events_closed = 0
 	depth = 0
+	this_rgo = nil
 	rgo = false
 	railroad = false
 	fort = false
@@ -186,7 +188,10 @@ def objifyProvinces(savegame)
 		### look in the first level of the RGO block
 		if depth == 2 && rgo == true
 			if line =~ /goods\_type\=/
-				this_prov.rgo_type = line.split('=')[1].gsub!(/\A"|"\Z/, '').strip
+				type = line.split('=')[1].gsub!(/\A"|"\Z/, '').strip
+				this_prov.rgo_type = type
+				
+				this_rgo.rgo_type = line.split('=')[1].gsub!(/\A"|"\Z/, '').strip
 				next
 			end
 			

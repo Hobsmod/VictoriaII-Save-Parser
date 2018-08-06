@@ -11,7 +11,7 @@ def ExtractPopFinancials(pops)
 	new_pops = Array.new
 	old_pops =  pops
 	
-	old_pops.each do |old_pop|
+	old_pops.each do |id, old_pop|
 		new_pop = Pop.new(old_pop.id)
 		new_pop.date = old_pop.date
 		new_pop.size = old_pop.size

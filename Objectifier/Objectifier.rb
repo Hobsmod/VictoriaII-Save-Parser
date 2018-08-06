@@ -10,8 +10,8 @@ require_relative '..\Classes\GlobalMarketData.rb'
 
 
 
-save_dir = 'C:\Program Files (x86)\Steam\steamapps\common\Victoria 2\mod\VictoriaII-Save-Parser\Savegames\PDM'
-
+save_dir = '..\Savegames\\' + ARGV[0]
+start_dir = Dir.pwd
 start = Time.now
 
 Dir.foreach(save_dir) do |file_name|
@@ -47,9 +47,9 @@ Dir.foreach(save_dir) do |file_name|
 	#### Create an Objectified folder wherever the save_game is
 	#### which is the top level folder (There is surely a better
 	#### way to do this but I suck and this works)
-	save_dir = File.dirname(save_game)
-	game_name = File.basename(save_game, ".*") + '-Objectified' 
+	
 	Dir::chdir(save_dir)
+	game_name = file_name + '-Objectified' 
 	Dir.mkdir(game_name) unless File.exists?(game_name)
 		
 		
@@ -57,14 +57,13 @@ Dir.foreach(save_dir) do |file_name|
 	#### Move down into the objectified folder and print the 
 	####  data as YAML's. I'd love to print these as JSON's but to_json just prints
 	#### references to the objects not the whole object
-	Dir::chdir(game_name)
-	File.write('MarketData.json', Oj.dump(market_data))
-	File.write('Countries.json', Oj.dump(tag_hash))
-	File.write('Pops.json', Oj.dump(pops))
-	File.write('Provinces.json', Oj.dump(provinces))
-	File.write('States.json', Oj.dump(states_n_factories))
+	File.write(game_name + '\\' + 'MarketData.json', Oj.dump(market_data))
+	File.write(game_name + '\\' + 'Countries.json', Oj.dump(tag_hash))
+	File.write(game_name + '\\' + 'Pops.json', Oj.dump(pops))
+	File.write(game_name + '\\' + 'Provinces.json', Oj.dump(provinces))
+	File.write(game_name + '\\' + 'States.json', Oj.dump(states_n_factories))
 	puts "finished writing all data for #{file_name} in #{Time.now - calc_time} seconds, hurrah for OJ's"
 	calc_time = Time.now
-	Dir::chdir(save_dir)
 	puts "Total run time is #{(Time.now - start) / 60.0 } minutes"
+	Dir::chdir(start_dir)
 end

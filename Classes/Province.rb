@@ -1,12 +1,14 @@
 class Province
-	attr_accessor :year, :owner, :controller, :core, :garrison, :colonial, :rgo_type, :life_rating,
+	attr_accessor :year, :owner, :controller, :cores, :garrison, :colonial, :rgo_type, :life_rating,
 	:last_imigration, :party_loyalty, :id, :date, :state, :name, :constructions, 
-	:crime, :employees, :rgo_income, :railroad, :fort, :pop_ids, :infrastructure
+	:crime, :employees, :rgo_income, :railroad, :fort, :pop_ids, :infrastructure,
+	:rgo
 	def initialize(id)
 		self.id = id
 		self.pop_ids = Array.new
 		self.employees = Hash.new{|hash, key| hash[key] = Hash.new}
 		self.party_loyalty = Hash.new{}
+		self.cores = Array.new
 	end
 	
 	def countRGOWorkers

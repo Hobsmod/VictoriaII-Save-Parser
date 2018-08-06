@@ -16,7 +16,6 @@
 *.gz
 *.iso
 *.jar
-*.rar
 *.tar
 *.zip
 
@@ -36,4 +35,6 @@
 ehthumbs.db
 Thumbs.db
 
-*.yml
+*.yaml
+*.v2
+Savegames/

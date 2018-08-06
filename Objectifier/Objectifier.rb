@@ -1,24 +1,22 @@
 require 'Date'
 require 'Oj'
 
-require_relative 'Methods\objifyMarketData.rb'
-require_relative 'Methods\objifyProvinces.rb'
-require_relative 'Methods\objifyCountries.rb'
-require_relative 'Methods\objifyStatesAndFactories.rb'
-require_relative 'Classes\GlobalMarketData.rb'
-require_relative 'Methods\addPopOwners.rb'
-require_relative 'Methods\addPopRgoType.rb'
-require_relative 'Methods\objifyPops.rb'
+require_relative '..\Methods\objifyMarketData.rb'
+require_relative '..\Methods\objifyProvsPops.rb'
+require_relative '..\Methods\objifyCountries.rb'
+require_relative '..\Methods\objifyStatesAndFactories.rb'
+require_relative '..\Classes\GlobalMarketData.rb'
 
 
 
-save_dir = '..\Savegames\Vanilla 3.04'
+
+save_dir = 'C:\Program Files (x86)\Steam\steamapps\common\Victoria 2\mod\VictoriaII-Save-Parser\Savegames\PDM'
 
 start = Time.now
 
 Dir.foreach(save_dir) do |file_name|
 	next if file_name == '.' or file_name == '..' or file_name =~ /Objectified/
-
+	
 	save_game = save_dir + '\\' + file_name
 	calc_time = Time.now
 	market_data = objifyMarketData(save_game)
@@ -30,17 +28,15 @@ Dir.foreach(save_dir) do |file_name|
 	puts "finished parsing country data for #{file_name} in #{Time.now - calc_time} seconds"
 	calc_time = Time.now
 	
-	provinces = objifyProvinces(save_game)
-	puts "finished parsing province data for #{file_name} in #{Time.now - calc_time} seconds"
+	##### Objify Pops and Provs used to be seperate methods but have been merged since there is a lot
+	##### of information about provinces that I also want to have attached to pops, and making a seperate
+	##### method to unite this info seems redundant.
+	pops_n_provs = objifyProvsPops(save_game)
+	pops = pops_n_provs[1]
+	provinces = pops_n_provs[0]
+	puts "finished parsing pop & province data for #{file_name} in #{Time.now - calc_time} seconds"
 	calc_time = Time.now
-	
-	pops = objifyPops(save_game)
-	addPopOwners(pops, provinces)
-	addPopRgoType(pops, provinces)
-	
-	puts "finished parsing pop data for #{file_name} in #{Time.now - calc_time} seconds"
-	calc_time = Time.now
-	
+		
 	states_n_factories = objifyStatesAndFactories(save_game)
 	puts "finished parsing state and factory data for #{file_name} in #{Time.now - calc_time} seconds"
 	calc_time = Time.now
@@ -63,20 +59,12 @@ Dir.foreach(save_dir) do |file_name|
 	#### references to the objects not the whole object
 	Dir::chdir(game_name)
 	File.write('MarketData.json', Oj.dump(market_data))
-	puts "finished writing market data for #{file_name} in #{Time.now - calc_time} seconds"
-	calc_time = Time.now
 	File.write('Countries.json', Oj.dump(tag_hash))
-	puts "finished writing country data for #{file_name} in #{Time.now - calc_time} seconds"
-	calc_time = Time.now
 	File.write('Pops.json', Oj.dump(pops))
-	puts "finished writing pop data for #{file_name} in #{Time.now - calc_time} seconds"
-	calc_time = Time.now
 	File.write('Provinces.json', Oj.dump(provinces))
-	puts "finished writing province data for #{file_name} in #{Time.now - calc_time} seconds"
-	calc_time = Time.now
 	File.write('States.json', Oj.dump(states_n_factories))
-	puts "finished writing state and factory data for #{file_name} in #{Time.now - calc_time} seconds"
+	puts "finished writing all data for #{file_name} in #{Time.now - calc_time} seconds, hurrah for OJ's"
 	calc_time = Time.now
-
-	puts "Total run time is #{Time.now - start}"
+	Dir::chdir(save_dir)
+	puts "Total run time is #{(Time.now - start) / 60.0 } minutes"
 end

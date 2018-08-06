@@ -2,7 +2,8 @@ require 'oj'
 require_relative '..\Classes\Pop.rb'
 require_relative '..\Methods\ExtractPopFinancials.rb'
 
-save_dir = '..\Savegames\Vanilla 3.04'
+
+save_dir = '..\Savegames' + '\\' + ARGV[0]
 
 
 all_pop_array = Array.new
@@ -17,7 +18,7 @@ Dir.foreach(save_dir) do |file_name|
 	this_dir = save_dir + '\\' + file_name
 
 	pops = Oj.load(File.read(this_dir + '\\' + 'Pops.json'))
-	puts "loaded country JSON in #{Time.now - start} seconds"
+	puts "loaded pop JSON in #{Time.now - start} seconds"
 	time_2 = Time.now
 	
 	all_pop_array.push(*ExtractPopFinancials(pops))

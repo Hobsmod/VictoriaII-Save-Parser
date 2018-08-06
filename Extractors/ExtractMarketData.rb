@@ -4,7 +4,8 @@ require 'oj'
 require_relative '..\Classes\GlobalMarketData.rb'
 
 
-save_dir = '..\Savegames\Vanilla 3.04'
+
+save_dir = '..\Savegames' + '\\' + ARGV[0]
 
 start = Time.now
 world_markets = Array.new

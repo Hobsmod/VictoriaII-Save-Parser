@@ -2,6 +2,11 @@ require 'oj'
 require_relative '..\Classes\Pop.rb'
 require_relative '..\Methods\ExtractFactoryFinancials.rb'
 
+if ARGV[0] == nil
+	puts "you have to put the target dir on command line"
+	exit
+end
+
 save_dir = '..\Savegames\\' + ARGV[0]
 
 
@@ -28,5 +33,5 @@ end
 
 Dir::chdir(save_dir)
 Dir.mkdir('Extracts') unless File.exists?('Extracts')
-write_location = 'Extracts' + '\\' + 'CountryFinancialInformation.json'	
+write_location = 'Extracts' + '\\' + 'FactoryFinancialInformation.json'	
 File.write(write_location, Oj.dump(all_factories_array))

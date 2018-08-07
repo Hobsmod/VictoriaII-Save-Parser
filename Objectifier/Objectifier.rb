@@ -49,7 +49,8 @@ Dir.foreach(save_dir) do |file_name|
 	#### way to do this but I suck and this works)
 	
 	Dir::chdir(save_dir)
-	game_name = file_name + '-Objectified' 
+	year_name = file_name.split('.')[0]
+	game_name = year_name + '-Objectified' 
 	Dir.mkdir(game_name) unless File.exists?(game_name)
 		
 		

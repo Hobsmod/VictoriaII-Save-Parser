@@ -1,4 +1,4 @@
-class ProductionType
+class ProductionTypeWIP
 	attr_accessor :type, :output, :out_value, :inputs, :name, 
 		:workforce, :template, :efficiency
 	
@@ -30,7 +30,7 @@ class ProductionType
 
 end
 
-class FactoryTemplate
+class ProductionTemplate
 	attr_accessor :name, :efficiency, :owner, :employees, :workforce
 
 	def initialize(name)

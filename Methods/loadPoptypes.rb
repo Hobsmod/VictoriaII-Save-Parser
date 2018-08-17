@@ -95,7 +95,6 @@ def loadPoptypes(mod_dir)
 			end
 			
 			if depth == 0 && line =~ /}/
-				puts "bloc type reset"
 				what_bloc = nil
 			end
 		end

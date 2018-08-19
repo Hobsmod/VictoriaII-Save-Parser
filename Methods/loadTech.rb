@@ -40,6 +40,11 @@ def loadTech(mod_dir)
 		File.open(file).each do |line|
 		
 			#### count open and close parens
+			if line =~ /^#/
+				puts line
+				next
+			end
+			
 			if line =~ /\w*\s\=\s\{/ && depth == 0
 				unless this_tech == nil
 					if this_tech.unciv_mil == nil 
@@ -62,10 +67,6 @@ def loadTech(mod_dir)
 				end
 			end
 		
-			
-			if line =~ /\#/
-				next
-			end
 			
 			if depth == 1
 				##### What bloc are we in?
